@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_opcion_uno"
+        android:icon="@drawable/futbol"
+        android:title="Ver todos"
+        app:showAsAction="always"/>
+    <item
+        android:id="@+id/menu_opcion_dos"
+        android:icon="@drawable/favorito"
+        android:title="Ver favoritos"
+        app:showAsAction="always"
+        />
+    <item
+        android:id="@+id/menu_opcion_tres"
+        android:icon="@drawable/salir"
+        android:title="Salir"
+        app:showAsAction="always"
+        />
+
+    <item
+        android:id="@+id/menu_opcion_busqueda"
+        android:title="Buscar"
+        app:showAsAction="always"
+        app:actionViewClass="android.widget.SearchView"
+        />
+</menu>

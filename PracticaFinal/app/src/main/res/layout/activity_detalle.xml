@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ActivityDetalle"
+    android:orientation="vertical"
+    android:background="@drawable/fondo"
+    >
+
+    <!--FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/frame_detalle"
+        >
+
+    </FrameLayout-->
+    <!--TextView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/texto3">
+
+    </TextView-->
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        >
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.7"
+            android:id="@+id/imagen_equipo_fragment"
+            >
+
+        </ImageView>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="0.3"
+            android:gravity="center"
+            android:text="texto"
+            android:textSize="50sp"
+            android:textStyle="bold"
+            android:background="@color/white"
+            android:alpha="0.6"
+            android:id="@+id/nombre_equipo_fragment"
+            >
+
+        </TextView>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:orientation="horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.1"
+        >
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="VER REDES SOCIALES"
+            android:id="@+id/btn_redes"
+            >
+
+        </Button>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:text="MARCAR FAVORITO"
+            >
+
+        </Button>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.4"
+        android:orientation="vertical"
+        android:background="@color/white"
+        android:alpha="0.6"
+        >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/texto_equipo_fragment"
+            android:textStyle="bold"
+            android:textSize="20sp"
+
+            android:text="texto"
+
+            >
+
+        </TextView>
+    </LinearLayout>
+</LinearLayout>

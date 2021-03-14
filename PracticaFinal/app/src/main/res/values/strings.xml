@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Todas las Ligas</string>
+    <string name="open_draw">OPEN</string>
+    <string name="close_draw">CLOSE</string>
+</resources>
