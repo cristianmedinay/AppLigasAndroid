@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/drawer_layout"
-
     tools:context=".Principal"
     >
     <include layout="@layout/main_principal"></include>

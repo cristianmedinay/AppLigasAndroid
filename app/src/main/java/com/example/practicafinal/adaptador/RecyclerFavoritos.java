@@ -1,5 +1,4 @@
 package com.example.practicafinal.adaptador;
-
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,12 +11,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.practicafinal.ActivityEquipos;
 import com.example.practicafinal.R;
 import com.example.practicafinal.utils.Equipo;
 
 import java.util.ArrayList;
-
 public class RecyclerFavoritos extends RecyclerView.Adapter<RecyclerFavoritos.miHolder> {
 
     ArrayList<Equipo> listaEquipos;
@@ -36,16 +33,15 @@ public class RecyclerFavoritos extends RecyclerView.Adapter<RecyclerFavoritos.mi
     @NonNull
     @Override
     public RecyclerFavoritos.miHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(context).inflate(R.layout.item_recycler_favorito,parent,false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_recycler_favorito, parent, false);
         RecyclerFavoritos.miHolder miHolder = new RecyclerFavoritos.miHolder(view);
         return miHolder;
     }
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerFavoritos.miHolder holder, int position) {
-        final  Equipo equipos = listaEquipos.get(position);
+        final Equipo equipos = listaEquipos.get(position);
         //holder.getImagen().setImageResource(equipos.getImagen());
-
 
 
         Glide.with(context).load(equipos.getImagen()).apply(option).into(holder.imagen);
@@ -53,22 +49,23 @@ public class RecyclerFavoritos extends RecyclerView.Adapter<RecyclerFavoritos.mi
             @Override
             public void onClick(View v) {
                 // ejecuto algo algo
-                //listener.onEquipoFavoritosSelected(equipos);
-                listaEquipos.remove(equipos);
+                listener.onEquipoFavoritosSelected(equipos);
+                //listaEquipos.remove(equipos);
             }
         });
     }
 
-    public void aniadirFavorito(Equipo equipo){
+    public void aniadirFavorito(Equipo equipo) {
         listaEquipos.add(equipo);
         notifyDataSetChanged();
     }
-    public void deleteFavorito(Equipo equipo){
+
+    public void deleteFavorito(Equipo equipo) {
         listaEquipos.remove(equipo);
         notifyDataSetChanged();
     }
 
-    public interface OnFavoritoSelected{
+    public interface OnFavoritoSelected {
         void onEquipoFavoritosSelected(Equipo equipos);
 
     }
@@ -81,6 +78,7 @@ public class RecyclerFavoritos extends RecyclerView.Adapter<RecyclerFavoritos.mi
     public class miHolder extends RecyclerView.ViewHolder {
         ImageView imagen;
         Button boton;
+
         public miHolder(@NonNull View itemView) {
             super(itemView);
             imagen = itemView.findViewById(R.id.imagen_equipo);

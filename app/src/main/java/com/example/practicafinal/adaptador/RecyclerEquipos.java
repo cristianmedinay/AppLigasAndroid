@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.example.practicafinal.ActivityEquipos;
 import com.example.practicafinal.R;
 import com.example.practicafinal.utils.Equipo;
 
@@ -23,7 +22,6 @@ public class RecyclerEquipos  extends RecyclerView.Adapter<RecyclerEquipos.miHol
     ArrayList<Equipo> listaEquipos;
     Context context;
     OnEquiposSelected listener;
-    ActivityEquipos activityEquipos;
     RequestOptions option;
 
     public RecyclerEquipos(ArrayList<Equipo> listaEquipos, Context context) {

@@ -1,7 +1,6 @@
 package com.example.practicafinal.fragment;
 
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -22,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.practicafinal.ActivityEquipos;
 import com.example.practicafinal.R;
 import com.example.practicafinal.adaptador.AdaptadorLigas;
 import com.example.practicafinal.utils.Ligas;

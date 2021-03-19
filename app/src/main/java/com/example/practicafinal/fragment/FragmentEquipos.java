@@ -21,7 +21,6 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.example.practicafinal.ActivityEquipos;
 import com.example.practicafinal.R;
 import com.example.practicafinal.adaptador.RecyclerEquipos;
 import com.example.practicafinal.utils.Equipo;

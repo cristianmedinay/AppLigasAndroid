@@ -4,11 +4,11 @@
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
-
     <androidx.appcompat.widget.Toolbar
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:elevation="10dp"
+        android:tooltipText="@string/app_name"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
         android:background="@android:color/darker_gray"
         android:id="@+id/toolbar_fragment_m"
@@ -17,29 +17,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:id="@+id/texto_toolbar"
+            >
 
-            />
+        </TextView>
+
     </androidx.appcompat.widget.Toolbar>
 
-    <LinearLayout
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:id="@+id/fragment_uno"
         >
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:id="@+id/fragment_uno"
-            >
-        </FrameLayout>
-        <FrameLayout
-            android:layout_width="0dp"
-            android:layout_height="match_parent"
-            android:layout_weight="0.5"
-            android:id="@+id/fragment_dos"
-            >
-        </FrameLayout>
-    </LinearLayout>
-
+    </FrameLayout>
 </LinearLayout>

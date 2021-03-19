@@ -44,28 +44,7 @@ public class MainLigas extends AppCompatActivity {
         //datos = new ArrayList<String>();
         //texto = findViewById(R.id.texto);
         getApi();
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
 
-                Intent intent = new Intent(getApplicationContext(), ActivityEquipos.class);
-                Ligas dato = (Ligas) adaptadorLigas.getItem(i);
-
-                adaptadorLigas.notifyDataSetChanged();
-                for (Ligas item : datos) {
-                    if (dato.getNombre().equals(item.getNombre())) {
-                        intent.putExtra("nombre",item.getNombre());
-                        intent.putExtra("id",item.getLiga());
-                        System.out.println(item.getLiga());
-                        startActivity(intent);
-                    }
-                }
-
-
-                adaptadorLigas.notifyDataSetChanged();
-
-            }
-        });
     }
 
     private void instancias() {

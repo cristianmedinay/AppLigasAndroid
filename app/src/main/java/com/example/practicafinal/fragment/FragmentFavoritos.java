@@ -1,5 +1,4 @@
 package com.example.practicafinal.fragment;
-
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -19,8 +18,7 @@ import com.example.practicafinal.adaptador.RecyclerFavoritos;
 import com.example.practicafinal.utils.Equipo;
 
 import java.util.ArrayList;
-
-public class FragmentFavoritos extends Fragment {
+public class FragmentFavoritos extends Fragment{
 
     RecyclerView lista;
     RecyclerFavoritos adaptador;
@@ -34,18 +32,14 @@ public class FragmentFavoritos extends Fragment {
         fragment.setArguments(args);
         return fragment;
     }
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         if (getArguments() != null) {
             detalle = (Equipo) this.getArguments().getSerializable("favorito");
             //listaEquipo = Filtro.newInstance().getListaFiltrada(detalle);
-
         } else {
             //listaEquipo = Filtro.newInstance().getListaCompleta();
-
         }
     }*/
 
@@ -84,4 +78,7 @@ public class FragmentFavoritos extends Fragment {
         //texto.setText();
 
     }
+
+
+
 }

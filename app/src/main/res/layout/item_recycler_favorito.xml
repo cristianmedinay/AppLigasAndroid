@@ -6,8 +6,8 @@
     app:cardCornerRadius="25dp"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/fondo"
-    android:layout_gravity="left|top"
-    android:layout_margin="25dp"
+    android:layout_gravity="top"
+    android:layout_margin="10dp"
     android:orientation="vertical">
     <ImageView
         android:layout_width="110dp"

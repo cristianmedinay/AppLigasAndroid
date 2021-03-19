@@ -7,9 +7,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
-import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -41,7 +39,7 @@ public class Principal extends AppCompatActivity implements
         FragmentEquipos.OnselectedListenerEquipos,
         RecyclerEquipos.OnEquiposSelected,
         FragmentEquipoDetalle.OnSelectedListenerEquipoDetalle,
-        RecyclerFavoritos.OnFavoritoSelected {
+        RecyclerFavoritos.OnFavoritoSelected{
 
     private NavigationView navigationView;
     ArrayList<Equipo> lista;
@@ -55,6 +53,7 @@ public class Principal extends AppCompatActivity implements
     Equipo equipo;
     FirebaseDatabase firebaseDatabase;
     String nombre,correo;
+    Ligas LigaNombres;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -65,16 +64,18 @@ public class Principal extends AppCompatActivity implements
         escribirNodo();
         acciones();
         personalizarBarra();
-        textoToolbar.setText("");
+        //textoToolbar.setText("");
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_uno,new FragmentFavoritos(),"list");
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_uno,new FragmentLigas(),"uno");
-        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.addToBackStack("uno");
         fragmentTransaction.commit();
         if(fragmentDos!=null) {
             fragmentManager = getSupportFragmentManager();
@@ -82,20 +83,15 @@ public class Principal extends AppCompatActivity implements
             fragmentTransaction = fragmentManager.beginTransaction();
             //fragmentTransaction.add(R.id.fragment_dos,fragment,"dos");
             fragmentTransaction.add(R.id.fragment_dos,new FragmentEquipos(),"dos");
-
+            fragmentTransaction.addToBackStack(null);
             fragmentTransaction.commit();
         }
-
-
     }
     private void escribirNodo() {
-
         DatabaseReference databaseReference =firebaseDatabase.getReference().child("usuarios").child(nombre);
         databaseReference.child("correo").setValue(correo);
         String nombrecortado = correo.substring(0,correo.indexOf('@'));
         databaseReference.child("nombre").setValue(nombrecortado);
-
-
         databaseReference = firebaseDatabase.getReference().child("usuarios").child(nombre).child("equipos").child("favoritos");
         databaseReference.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -107,31 +103,11 @@ public class Principal extends AppCompatActivity implements
                     //Usuario usuario = hijo.getValue(Usuario.class);
                     Equipo favorito1 = iterator.next().getValue(Equipo.class);
                     FragmentFavoritos fragments = (FragmentFavoritos) getSupportFragmentManager().findFragmentByTag("list");
-
                     fragments.addEquipo(favorito1);
-
-                    /*if(favorito1.getNombre().equals("Barcelona")) {
-                        fragments.addEquipo(favorito1);
-                    }*/
-                    /*if(favorito1.getNombre().equals("Barcelona")) {
-                        fragments.addEquipo(favorito1);
-                    } */                           /*Iterator<DataSnapshot> itera = dataSnapshot.getChildren().iterator();
-                            while (iterator.hasNext()) {
-                                DataSnapshot h = iterator.next();
-                                Usuario u = h.getValue(Usuario.class);
-                                Toast.makeText(getApplicationContext(),u.toString(),Toast.LENGTH_SHORT).show();
-
-                            }*/
-                    Log.v("aaaaaaaasaa",String.valueOf(favorito1));
-
-                    Toast.makeText(getApplicationContext(),favorito1.toString(),Toast.LENGTH_SHORT).show();
                 }
 
             }
         });
-
-
-
 
     }
 
@@ -140,31 +116,30 @@ public class Principal extends AppCompatActivity implements
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
-                //fragmentManager = getSupportFragmentManager();
-                //fragmentTransaction = fragmentManager.beginTransaction();
-               //FragmentFavoritos fragment = (FragmentFavoritos) fragmentManager.findFragmentByTag("list");
-                //fragmentTransaction = fragmentManager.beginTransaction();
                 switch (item.getItemId()) {
+                    case R.id.menu_opcion_uno:
+                        fragmentManager = getSupportFragmentManager();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.add(R.id.fragment_uno,new FragmentLigas(),"uno");
+                        fragmentTransaction.addToBackStack("todos");
+                        getSupportActionBar().setTitle("Todas las Ligas");
+                        break;
                     case R.id.menu_opcion_dos:
-                        //fragmentTransaction.replace(R.id.fragment_uno, FragmentFavoritos.newInstance(equipo), "uno");
-                        //Toast.makeText(getApplicationContext(),"Pulsado",Toast.LENGTH_SHORT).show();
                         fragmentManager = getSupportFragmentManager();
                         FragmentFavoritos fragment = (FragmentFavoritos) fragmentManager.findFragmentByTag("list");
                         fragmentTransaction = fragmentManager.beginTransaction();
                         fragmentTransaction.replace(R.id.fragment_uno,fragment,"list");
-                        fragmentTransaction.addToBackStack(null);
-                        fragmentTransaction.commit();
+                        fragmentTransaction.addToBackStack("favorito");
+                        getSupportActionBar().setTitle("Favoritos");
 
                         break;
-
                     case R.id.menu_opcion_tres:
                         System.exit(0);
                         break;
                 }
 
-
+                fragmentTransaction.commit();
                 drawerLayout.closeDrawers();
-
                 return true;
             }
         });
@@ -174,12 +149,35 @@ public class Principal extends AppCompatActivity implements
     public void onBackPressed() {
         super.onBackPressed();
         if (getSupportFragmentManager().getBackStackEntryCount() == 0) {
-            finish();
-        }
+            System.exit(0);
+        }else {
+           switch (getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName()) {
 
+               case "todos":
+                   getSupportActionBar().setTitle("Todas las Ligas ");
+                   break;
+               case "favorito":
+                   getSupportActionBar().setTitle("Favoritos");
+                   break;
+               case "uno":
+                    getSupportActionBar().setTitle("Todas las Ligas");
+                    break;
+
+                case "dos":
+                    getSupportActionBar().setTitle(LigaNombres.getNombre());
+                    break;
+            }
+        }
+       // Log.v("prueba", "Nº nombre: "+String.valueOf(getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount()-1).getName()));
+       // Log.v("prueba", "Nº Fragments: " + String.valueOf(getSupportFragmentManager().getFragments().size()));
+       // Log.v("prueba", "Nº Estados: " + String.valueOf(getSupportFragmentManager().getBackStackEntryCount()));
+       // Log.v("prueba", "Nº tag: " + String.valueOf(getSupportFragmentManager().findFragmentByTag("list")));
     }
+
+
     private void personalizarBarra() {
         setSupportActionBar(toolbar);
+        //SI BORRO EL TOGGLE ME FUNCIONA EN LAND ESCAPE
         actionBarDrawerToggle = new ActionBarDrawerToggle(Principal.this,drawerLayout,toolbar,R.string.open_draw,R.string.close_draw);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
         actionBarDrawerToggle.syncState();
@@ -201,25 +199,27 @@ public class Principal extends AppCompatActivity implements
     }
     @Override
     public void OnSelectedLigas(Ligas ligas) {
+
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         if(fragmentDos==null) {
-            fragmentTransaction.replace(R.id.fragment_uno, FragmentEquipos.newInstance(ligas), "dos");
-            fragmentTransaction.addToBackStack(null);
-            textoToolbar.setText(ligas.getNombre());
-
+            // CARGO LOS DATOS DE LIGAS AL FRAGMENT EQUIPOS
+            fragmentTransaction.add(R.id.fragment_uno, FragmentEquipos.newInstance(ligas), "dos");
+            fragmentTransaction.addToBackStack("dos");
+            //MANDO LOS DATOS AL TOOLBAR
+            getSupportActionBar().setTitle(ligas.getNombre());
+            LigaNombres = ligas;
             /*
             FragmentEquipos fragment = (FragmentEquipos) getSupportFragmentManager().findFragmentByTag("dos");
             fragment.addEquiposJSON(ligas);
             */
-
         }else{
             fragmentTransaction.replace(R.id.fragment_dos, FragmentEquipos.newInstance(ligas), "dos");
+            fragmentTransaction.addToBackStack(null);
 
         }
         fragmentTransaction.commit();
 
-        //Toast.makeText(getApplicationContext(),ligas.getLiga(),Toast.LENGTH_SHORT).show();
     }
     @Override
     public void OnselectedEquipos() {
@@ -232,20 +232,24 @@ public class Principal extends AppCompatActivity implements
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         if(fragmentDos==null) {
-            fragmentTransaction.replace(R.id.fragment_uno, FragmentEquipoDetalle.newInstance(equipos), "tres");
+            // EL FRAGMENT EQUIPO DETALLE SE CARGA MEDIANTE EL FRAGMENT EQUIPO
+            fragmentTransaction.add(R.id.fragment_uno, FragmentEquipoDetalle.newInstance(equipos), "tres");
             fragmentTransaction.addToBackStack(null);
+            getSupportActionBar().setTitle(equipos.getNombre());
         }else{
+            // FUNCIONA EN LAND ESCAPE SI BORRO EL TOGGLE
             fragmentTransaction.replace(R.id.fragment_dos, FragmentEquipoDetalle.newInstance(equipos), "tres");
+            fragmentTransaction.addToBackStack(null);
 
         }
-                fragmentTransaction.commit();
+        fragmentTransaction.commit();
 
     }
 
 
     @Override
     public void OnSelecterEquipoDetalle(Equipo equipo) {
-        //Toast.makeText(getApplicationContext(),"pulsado",Toast.LENGTH_SHORT).show();
+        // LLAMO AL DIALOGO REDES DESDE EL FRAGMENT EQUIPO
         DialogoRedes dialogoRedes = DialogoRedes.newInstance(equipo);
         dialogoRedes.show(getSupportFragmentManager(),"key3");
 
@@ -254,12 +258,13 @@ public class Principal extends AppCompatActivity implements
     @Override
     public void OnSelecterEquipoFavorito(Equipo equipo) {
 
-        //Toast.makeText(getApplicationContext(),equipo.toString(),Toast.LENGTH_SHORT).show();
+        //MANDO AL FRAGMENT FAVORITO EL EQUIPO SELECCIONADO
         FragmentFavoritos fragment = (FragmentFavoritos) getSupportFragmentManager().findFragmentByTag("list");
         String equipoNombre = equipo.getNombre();
         DatabaseReference databaseReferenceEscritura = firebaseDatabase.getReference().child("usuarios").child(nombre);
         databaseReferenceEscritura.child("equipos").child("favoritos").child(equipoNombre).setValue(equipo);
 
+        //SE MANDA AL SERVIDOR EL EQUIPO SELECCIONADO
         DatabaseReference databaseRefeceTodos = firebaseDatabase.getReference().child("usuarios").child(nombre).child("equipos").child("favoritos");
         databaseRefeceTodos.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -272,16 +277,7 @@ public class Principal extends AppCompatActivity implements
                     Equipo favorito1 = iterator.next().getValue(Equipo.class);
                     if(favorito1.getNombre().equals(equipo.getNombre())) {
                         fragment.addEquipo(favorito1);
-                    }                            /*Iterator<DataSnapshot> itera = dataSnapshot.getChildren().iterator();
-                            while (iterator.hasNext()) {
-                                DataSnapshot h = iterator.next();
-                                Usuario u = h.getValue(Usuario.class);
-                                Toast.makeText(getApplicationContext(),u.toString(),Toast.LENGTH_SHORT).show();
-
-                            }*/
-                    Log.v("aaaaaaaaaa",String.valueOf(favorito1));
-
-                    Toast.makeText(getApplicationContext(),favorito1.toString(),Toast.LENGTH_SHORT).show();
+                    }
                 }
             }
         });
@@ -289,10 +285,27 @@ public class Principal extends AppCompatActivity implements
         fragment.addEquipo(equipo);*/
     }
 
+
     @Override
     public void onEquipoFavoritosSelected(Equipo equipos) {
-        FragmentFavoritos fragment = (FragmentFavoritos) getSupportFragmentManager().findFragmentByTag("list");
-        fragment.eliminaEquipo(equipos);
+
+        //ELIMINA EL EL EQUIPO SELECCIONADO
+        DatabaseReference databa = firebaseDatabase.getReference().child("usuarios").child(nombre).child("equipos").child("favoritos").child(equipos.getNombre());
+        databa.get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DataSnapshot> task) {
+                Equipo equipo = task.getResult().getValue(Equipo.class);
+                if(equipo.getNombre().equals(equipos.getNombre())){
+                    FragmentFavoritos fragments = (FragmentFavoritos) getSupportFragmentManager().findFragmentByTag("list");
+                    databa.setValue(null);
+                    Toast.makeText(getApplicationContext(),"borro",Toast.LENGTH_SHORT).show();
+                    fragments.eliminaEquipo(equipos);
+
+                }
+            }
+        });
+        /*FragmentFavoritos fragment = (FragmentFavoritos) getSupportFragmentManager().findFragmentByTag("list");
+        fragment.eliminaEquipo(equipos);*/
 
     }
 }
